@@ -23,7 +23,7 @@ public class SidebarController implements Updatable {
 	}
 
 	@Override
-	public void updateUi() {
+	public void updateUi(Updatable excluded) {
 		List<RequestFolder> folders = workspace.getRootFolders();
 
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(workspace.getName());

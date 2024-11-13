@@ -3,12 +3,12 @@ package net.restcall.controllers.mainwindow;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.restcall.controllers.Context;
 import net.restcall.controllers.Updatable;
 import net.restcall.controllers.mainwindow.rightpanelcontrollers.BaseRightPanelTabController;
 import net.restcall.controllers.mainwindow.rightpanelcontrollers.FolderTabController;
 import net.restcall.controllers.mainwindow.rightpanelcontrollers.RestcallTabController;
 import net.restcall.gui.RightPanel;
-import net.restcall.gui.pages.RequestPage;
 import net.restcall.model.ModelItem;
 import net.restcall.model.RestCall;
 import net.restcall.model.Workspace;
@@ -26,14 +26,17 @@ public class RightPanelController implements Updatable {
 	}
 
 	@Override
-	public void updateUi() {
+	public void updateUi(Updatable excluded) {
 		if (rightPanel.isAllTabsPresent(tabControllers.size())) {
 			BaseRightPanelTabController tabController = tabControllers.get(tabControllers.size() - 1);
 			tabController.open();
 		}
 		if (currentTabIndex >= 0) {
 			rightPanel.switchToTab(currentTabIndex);
-			tabControllers.get(currentTabIndex).updateUi();
+			var updatable = tabControllers.get(currentTabIndex);
+			if (updatable != excluded) {
+				updatable.updateUi(excluded);
+			}
 		}
 	}
 
@@ -44,7 +47,7 @@ public class RightPanelController implements Updatable {
 			tabControllers.add(createTabController(modelItem));
 			currentTabIndex = tabControllers.size() - 1;
 		}
-		updateUi();
+		updateUi(null);
 	}
 
 	private BaseRightPanelTabController createTabController(ModelItem modelItem) {

@@ -1,10 +1,6 @@
 package net.restcall.controllers.mainwindow.rightpanelcontrollers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.restcall.controllers.BaseTabController;
-import net.restcall.controllers.Updatable;
 import net.restcall.gui.RightPanel;
 import net.restcall.model.ModelItem;
 

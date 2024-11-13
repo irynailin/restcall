@@ -38,14 +38,16 @@ public class RootController implements Updatable, DoubleClickNodeListener {
 		ModelLoader modelLoader = new ModelLoader();
 		modelLoader.load(workspace);
 
-		updateUi();
+		updateUi(null);
 		mainWindow.setVisible(true);
 	}
 
 	@Override
-	public void updateUi() {
+	public void updateUi(Updatable excluded) {
 		for (Updatable controller : controllers) {
-			controller.updateUi();
+			if (controller != excluded) {
+				controller.updateUi(excluded);
+			}
 		}
 	}
 

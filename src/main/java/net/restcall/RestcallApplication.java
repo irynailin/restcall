@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
-import net.restcall.controllers.RootController;
+import net.restcall.controllers.Context;
 
 public class RestcallApplication {
 
@@ -15,8 +15,8 @@ public class RestcallApplication {
 
 	private void startGui() {
 		FlatLightLaf.setup();
-		var rootController = new RootController();
-		EventQueue.invokeLater(rootController::show);
+		Context.init();
+		EventQueue.invokeLater(Context::show);
 
 	}
 }
