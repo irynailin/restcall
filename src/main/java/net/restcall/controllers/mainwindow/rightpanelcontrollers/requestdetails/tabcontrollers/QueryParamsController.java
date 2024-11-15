@@ -65,6 +65,8 @@ public class QueryParamsController implements Updatable, UiChangeListener, Comma
 				item.setValue((String) row.get(1));
 
 			}
+			
+			Context.updateUi(this);
 		}
 	}
 
