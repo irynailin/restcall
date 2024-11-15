@@ -2,6 +2,6 @@ package net.restcall.controllers;
 
 public interface Updatable {
 
-	void updateUi();
+	void updateUi(Updatable excluded);
 	
 }

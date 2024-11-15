@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.Action;
 
+import net.restcall.controllers.Context;
 import net.restcall.controllers.Updatable;
 import net.restcall.gui.actions.CommandAction;
 import net.restcall.gui.actions.CommandExecutor;
@@ -26,15 +27,15 @@ public class QueryParamsController implements Updatable, UiChangeListener, Comma
 		this.queryParams = queryParams;
 		this.queryParametersPanel = queryParametersPanel;
 		queryParametersPanel.registerChangeListener(this);
-		queryParametersPanel.registerActions(new Action[] {
-				new CommandAction(DELETE_QUERY_PARAM, "Delete Query Param", "/buttons/del.png", this),
-				new CommandAction(ADD_NEW_QUERY_PARAM, "Add New Query Param", "/buttons/add.png", this)
-				
-		});
+		queryParametersPanel.registerActions(
+				new Action[] { new CommandAction(DELETE_QUERY_PARAM, "Delete Query Param", "/buttons/del.png", this),
+						new CommandAction(ADD_NEW_QUERY_PARAM, "Add New Query Param", "/buttons/add.png", this)
+
+				});
 	}
 
 	@Override
-	public void updateUi() {
+	public void updateUi(Updatable excluded) {
 		List<SelectableNamedValue> list = queryParams.getParams();
 		String[][] data = new String[list.size()][QueryParametersPanel.COLUMN_COUNT];
 		for (int i = 0; i < list.size(); i++) {
@@ -54,13 +55,18 @@ public class QueryParamsController implements Updatable, UiChangeListener, Comma
 
 	@Override
 	public void uiChanged() {
-		List<SelectableNamedValue> list = queryParams.getParams();
-		Vector<Vector> uiData = queryParametersPanel.getData();
-		for (int i = 0; i < uiData.size(); i++) {
-			SelectableNamedValue item = list.get(i);
-			Vector row = uiData.get(i);
-			item.setName((String) row.get(0));
-			item.setValue((String) row.get(1));
+		if (Context.mayUpdate()) {
+			List<SelectableNamedValue> list = queryParams.getParams();
+			Vector<Vector> uiData = queryParametersPanel.getData();
+			for (int i = 0; i < uiData.size(); i++) {
+				SelectableNamedValue item = list.get(i);
+				Vector row = uiData.get(i);
+				item.setName((String) row.get(0));
+				item.setValue((String) row.get(1));
+
+			}
+			
+			Context.updateUi(this);
 		}
 	}
 
@@ -73,6 +79,6 @@ public class QueryParamsController implements Updatable, UiChangeListener, Comma
 		case DELETE_QUERY_PARAM:
 			new DeleteQueryParameterService(queryParams.getParams()).delete(queryParametersPanel.getSelectedIndex());
 		}
-		updateUi();
+		Context.updateUi(null);
 	}
 }
