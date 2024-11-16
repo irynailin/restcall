@@ -1,0 +1,22 @@
+plugins {
+	id 'java'
+}
+
+group = 'net.restcall'
+version = '0.2.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '21'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'com.formdev:flatlaf:3.4.1'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
