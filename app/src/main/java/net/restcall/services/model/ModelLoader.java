@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.restcall.consts.RcConsts.RequestTypes;
+import net.restcall.model.RequestConsts.RequestTypes;
 import net.restcall.model.RequestFolder;
 import net.restcall.model.RestCall;
 import net.restcall.model.Workspace;

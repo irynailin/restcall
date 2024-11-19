@@ -1,6 +1,6 @@
 package net.restcall.model.call;
 
-import net.restcall.consts.RcConsts.RequestTypes;
+import net.restcall.model.RequestConsts.RequestTypes;
 
 public class Endpoint {
 	private RequestTypes method;
