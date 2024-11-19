@@ -1,10 +1,10 @@
 package net.restcall.controllers.mainwindow.rightpanelcontrollers.requestdetails;
 
-import net.restcall.consts.RcConsts.RequestTypes;
 import net.restcall.controllers.Context;
 import net.restcall.controllers.Updatable;
 import net.restcall.gui.listeners.UiChangeListener;
 import net.restcall.gui.pages.request.HttpUrlInput;
+import net.restcall.model.RequestConsts.RequestTypes;
 import net.restcall.model.call.Endpoint;
 import net.restcall.model.call.request.QueryParameters;
 
@@ -23,7 +23,7 @@ public class RequestUrlController implements Updatable, UiChangeListener {
 
 	@Override
 	public void updateUi(Updatable excluded) {
-		urlInput.update(endpoint.getMethod(), createFullEndpoint());
+		urlInput.update(endpoint.getMethod().toString(), createFullEndpoint());
 	}
 
 	private String createFullEndpoint() {

@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.restcall.consts.RcConsts.RequestTypes;
 import net.restcall.gui.listeners.UiChangeListener;
 
 public class HttpUrlInput extends JPanel {
@@ -97,8 +96,8 @@ public class HttpUrlInput extends JPanel {
 		return r;
 	}
 
-	public void update(RequestTypes type, String url) {
-		methodComboBox.setSelectedItem(type.toString());
+	public void update(String type, String url) {
+		methodComboBox.setSelectedItem(type);
 		urlField.setText(url);
 	}
 
