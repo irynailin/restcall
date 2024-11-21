@@ -2,28 +2,32 @@ package net.restcall.controllers.mainwindow.rightpanelcontrollers.requestdetails
 
 import net.restcall.controllers.Context;
 import net.restcall.controllers.Updatable;
+import net.restcall.engine.RestCallEngine;
+import net.restcall.gui.listeners.OperationListener;
 import net.restcall.gui.listeners.UiChangeListener;
 import net.restcall.gui.pages.request.HttpUrlInput;
 import net.restcall.model.RequestConsts.RequestTypes;
+import net.restcall.model.RestCall;
 import net.restcall.model.call.Endpoint;
 import net.restcall.model.call.request.QueryParameters;
 
-public class RequestUrlController implements Updatable, UiChangeListener {
-	private final Endpoint endpoint;
-	private final QueryParameters queryParameters;
+public class RequestUrlController implements Updatable, UiChangeListener, OperationListener {
+	private final RestCall restcall;
+
 	private final HttpUrlInput urlInput;
 
-	public RequestUrlController(Endpoint endpoint, QueryParameters queryParameters, HttpUrlInput urlInput) {
+	public RequestUrlController(RestCall restcall, HttpUrlInput urlInput) {
 		super();
-		this.endpoint = endpoint;
-		this.queryParameters = queryParameters;
+		this.restcall = restcall;
+
 		this.urlInput = urlInput;
 		urlInput.registerChangeListener(this);
+		urlInput.registerSendOperationListener(this);
 	}
 
 	@Override
 	public void updateUi(Updatable excluded) {
-		urlInput.update(endpoint.getMethod().toString(), createFullEndpoint());
+		urlInput.update(restcall.getEndpoint().getMethod().toString(), createFullEndpoint());
 	}
 
 	private String createFullEndpoint() {
@@ -31,15 +35,16 @@ public class RequestUrlController implements Updatable, UiChangeListener {
 //		fullEndpoint.append(endpoint.getUrl());
 //		fullEndpoint.append(queryParameters);
 //		return fullEndpoint.toString();
-		return endpoint.getUrl() + queryParameters;
+		return restcall.getEndpoint().getUrl() + restcall.getRequest().getQueryParameters();
 	}
 
 	@Override
 	public void uiChanged() {
 		if (Context.mayUpdate()) {
+			Endpoint endpoint = restcall.getEndpoint();
 			endpoint.setMethod(RequestTypes.valueOf(urlInput.method()));
 			endpoint.setUrl(extractUrl(urlInput.url()));
-			queryParameters.fromString(extractQueryParameters(urlInput.url()));
+			restcall.getRequest().getQueryParameters().fromString(extractQueryParameters(urlInput.url()));
 			Context.updateUi(this);
 		}
 	}
@@ -60,6 +65,11 @@ public class RequestUrlController implements Updatable, UiChangeListener {
 		} else {
 			return endUrlIndex < url.length() - 1 ? url.substring(endUrlIndex + 1) : "";
 		}
+	}
+
+	@Override
+	public void operationFired() {
+		RestCallEngine.current().call(restcall);
 	}
 
 }
