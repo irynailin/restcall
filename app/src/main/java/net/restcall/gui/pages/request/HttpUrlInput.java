@@ -12,12 +12,14 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import net.restcall.gui.listeners.OperationListener;
 import net.restcall.gui.listeners.UiChangeListener;
 
 public class HttpUrlInput extends JPanel {
 	private JComboBox<String> methodComboBox;
 	private JTextField urlField;
 	private UiChangeListener changeListener;
+	private OperationListener sendOperationListener;
 
 	public HttpUrlInput() {
 		super(new BorderLayout(0, 0));
@@ -38,7 +40,7 @@ public class HttpUrlInput extends JPanel {
 				}
 
 			}
-			
+
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				if (e.getType() != null) {
@@ -60,10 +62,10 @@ public class HttpUrlInput extends JPanel {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Handle the request here (e.g., print the URL and method)
-				String selectedMethod = (String) methodComboBox.getSelectedItem();
-				String url = urlField.getText();
-				System.out.println("Method: " + selectedMethod + ", URL: " + url);
+				if (sendOperationListener!=null) {
+					sendOperationListener.operationFired();
+					
+				}
 			}
 		});
 
@@ -87,6 +89,11 @@ public class HttpUrlInput extends JPanel {
 
 	public void registerChangeListener(UiChangeListener changeListener) {
 		this.changeListener = changeListener;
+	}
+
+	public void registerSendOperationListener(OperationListener sendOperationListener) {
+		this.sendOperationListener = sendOperationListener;
+
 	}
 
 	@Override
