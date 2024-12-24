@@ -2,6 +2,7 @@ package net.restcall.controllers.mainwindow.rightpanelcontrollers;
 
 import net.restcall.controllers.mainwindow.rightpanelcontrollers.requestdetails.RequestParameterController;
 import net.restcall.controllers.mainwindow.rightpanelcontrollers.requestdetails.RequestUrlController;
+import net.restcall.controllers.mainwindow.rightpanelcontrollers.responsedetails.RequestResponseController;
 import net.restcall.gui.RightPanel;
 import net.restcall.gui.pages.RequestPage;
 import net.restcall.model.ModelItem;
@@ -19,6 +20,8 @@ public class RestcallTabController extends BaseRightPanelTabController {
 				requestPage.requestParamPanel().getHttpUrlInput()));
 		registerController(new RequestParameterController(restcall.getRequest(),
 				requestPage.requestParamPanel().getParameterTabs()));
+		registerController(new RequestResponseController(restcall.getResponse(),
+				requestPage.responsePanel().getResponseTabs()));
 
 	}
 
