@@ -13,6 +13,7 @@ public class Response {
 	private TestResults testResults;
 
 	public Response() {
+		this.body=new Body("");
 	}
 
 	public Response(Body body, Headers headers, Cookies cookies, TestResults testResults) {

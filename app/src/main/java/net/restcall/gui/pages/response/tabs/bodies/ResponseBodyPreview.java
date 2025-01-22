@@ -2,6 +2,12 @@ package net.restcall.gui.pages.response.tabs.bodies;
 
 import javax.swing.JPanel;
 
-public class ResponseBodyPreview extends JPanel {
+public class ResponseBodyPreview extends JPanel implements UpdatableBody {
+
+	@Override
+	public void update(String payload) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
