@@ -70,6 +70,7 @@ public class RequestUrlController implements Updatable, UiChangeListener, Operat
 	@Override
 	public void operationFired() {
 		RestCallEngine.current().call(restcall);
+		Context.updateUi(null);
 	}
 
 }

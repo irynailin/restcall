@@ -32,7 +32,7 @@ public class ResponseBody extends JPanel {
 
 		add(payloadTypeComboBox, BorderLayout.NORTH);
 		add(contentPanel, BorderLayout.CENTER);
-		replaceContentPanel((String) payloadTypeComboBox.getSelectedItem()); // Initial update
+		updatableBody = replaceContentPanel((String) payloadTypeComboBox.getSelectedItem()); // Initial update
 
 		// Add an ActionListener to the combo box
 		payloadTypeComboBox.addActionListener(new ActionListener() {
@@ -54,12 +54,9 @@ public class ResponseBody extends JPanel {
 
 			payloadTypeComboBox.setSelectedItem(payloadType);
 
-			if (replaceContentPanel(payloadType) instanceof UpdatableBody ub) {
-				updatableBody = ub;
-			} else {
-				updatableBody = null;
-			}
+
 		}
+		updatableBody = replaceContentPanel(payloadType);
 
 		if (updatableBody != null) {
 			updatableBody.update(payload);
@@ -76,7 +73,7 @@ public class ResponseBody extends JPanel {
 	 * @param selectedOption
 	 * @return
 	 */
-	private JComponent replaceContentPanel(String selectedOption) {
+	private UpdatableBody replaceContentPanel(String selectedOption) {
 		// Clear previous content
 		contentPanel.removeAll();
 
@@ -89,7 +86,7 @@ public class ResponseBody extends JPanel {
 		contentPanel.revalidate();
 		contentPanel.repaint();
 
-		return contentPanelChild;
+		return contentPanelChild instanceof UpdatableBody ? (UpdatableBody) contentPanelChild : null;
 
 	}
 
